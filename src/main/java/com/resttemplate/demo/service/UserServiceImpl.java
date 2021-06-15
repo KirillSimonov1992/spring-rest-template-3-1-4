@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         headers.set("Cookie", cookie);
 
         // Data attached to the request.
-        HttpEntity<String> requestBody = new HttpEntity<>(parseStringInJson(user), headers);
+        HttpEntity<User> requestBody = new HttpEntity<>(user, headers);
 
         // Send request with POST method.
         return new RestTemplate().postForEntity(URL_USERS, requestBody, String.class);
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         headers.set("Cookie", cookie);
 
         // Data attached to the request.
-        HttpEntity<String> requestBody = new HttpEntity<>(parseStringInJson(user), headers);
+        HttpEntity<User> requestBody = new HttpEntity<>(user, headers);
 
         // Send request with PUT method.
         return new RestTemplate().exchange(URL_USERS,
@@ -74,16 +74,5 @@ public class UserServiceImpl implements UserService {
         return new RestTemplate().exchange(url, HttpMethod.DELETE,
                 new HttpEntity<>("", headers), String.class);
     }
-
-    private String parseStringInJson(User user) {
-        String json = null;
-        try {
-            json = new ObjectMapper().writeValueAsString(user);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
 
 }
